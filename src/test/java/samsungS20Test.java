@@ -20,10 +20,14 @@ import static utils.JsonReader.getTestData;
 public class samsungS20Test {
     AppiumDriver<MobileElement> driver;
     public static String url;
+    public static String username;
+    public static String password;
 
     static {
         try {
             url = getTestData("url");
+            username = getTestData("username");
+            password = getTestData("password");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {
@@ -45,15 +49,14 @@ public class samsungS20Test {
                 caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
                 caps.setCapability(MobileCapabilityType.APP, "/Users/KeenanMeyer/workspace/appium/practice/proverbial_android.apk");
             }
+            else if(platform.equalsIgnoreCase("ios")) {
 
-//            else if(platform.equalsIgnoreCase("ios")) {
-//
-//                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "IOS");
-//                caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.4");
-//                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X");
-//                caps.setCapability(MobileCapabilityType.BROWSER_NAME, "Safari");
-//
-//            }
+                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "IOS");
+                caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "11.4");
+                caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X");
+                caps.setCapability(MobileCapabilityType.BROWSER_NAME, "Safari");
+
+            }
 
 
             URL url = new URL("http://127.0.0.1:4723/wd/hub");
@@ -78,7 +81,7 @@ public class samsungS20Test {
         Iterator<String> iterator = jsonArray.iterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
-
+        }
             System.out.println("I am inside sample Test");
 
             //click on geolocation
@@ -107,11 +110,31 @@ public class samsungS20Test {
 
 
             //checking if  logo displayed
-            MobileElement googleLogo = driver.findElementByXPath("//android.widget.Image[@resource-id=\"hplogo\"]\n");
-            Assert.assertEquals(googleLogo.isDisplayed(), true, "Google logo is not displayed");
-            System.out.println("logo done");
+            MobileElement loginButton = driver.findElementByXPath("//android.widget.Button[@resource-id=\"login-button\"]\n");
+            Assert.assertEquals(loginButton.isDisplayed(), true, "Swag labs Login is not displayed");
+            System.out.println("logon done");
             Thread.sleep(200);
-        }
+
+            //lOGIN
+            MobileElement urlUserNameTextInput = driver.findElementByXPath("//android.widget.EditText[@resource-id=\"user-name\"]");
+            String usernameTxt =  String.valueOf(driver.findElementByXPath("//android.view.View[@text=\"standard_user\"]").getText());
+            urlUserNameTextInput.sendKeys(usernameTxt);
+            System.out.println("USERNAME" + usernameTxt);
+            Thread.sleep(300);
+
+            MobileElement urlPasswordTextInput = driver.findElementByXPath("//android.widget.EditText[@resource-id=\"password\"]");
+            String passwordTxt =  String.valueOf(driver.findElementByXPath("//android.view.View[@text=\"secret_sauce\"]").getText());
+            urlPasswordTextInput.sendKeys(passwordTxt);
+            System.out.println("PASSWORD" + passwordTxt);
+            Thread.sleep(300);
+
+            loginButton.click();
+            System.out.println("Login clicked");
+            Thread.sleep(500);
+
+//            MobileElement productLbl = driver.findElementById("//android.widget.EditText[@resource-id=\"Products\"]");
+//            Assert.assertEquals(productLbl.isDisplayed(), true, "Not successfully logged in");
+
     }
 
 

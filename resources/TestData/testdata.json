@@ -1,5 +1,7 @@
 {
-  "url": "http://google.com",
+  "url": "http://saucedemo.com/v1/",
+  "username": "notset" ,
+  "password": "notset",
   "languages": [
     "java",
     "JavaFX",
